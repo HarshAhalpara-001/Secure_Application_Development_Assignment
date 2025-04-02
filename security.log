@@ -1,0 +1,363 @@
+2025-04-02 12:21:33,493 - strawberry.execution - ERROR - (sqlite3.OperationalError) no such column: user.created_at
+[SQL: SELECT user.id, user.username, user.email, user.hashed_password, user.created_at 
+FROM user 
+WHERE user.username = ? OR user.email = ?]
+[parameters: ('123456', '123456@gmail.com')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+GraphQL request:3:11
+2 |         mutation RegisterUser($username: String!, $email: String!, $password: String!) {
+3 |           registerUser(username: $username, email: $email, password: $password) {
+  |           ^
+4 |             id
+Traceback (most recent call last):
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: user.created_at
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\graphql\execution\execute.py", line 530, in await_result
+    return_type, field_nodes, info, path, await result
+                                          ^^^^^^^^^^^^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\strawberry\schema\schema_converter.py", line 752, in _async_resolver
+    return await await_maybe(
+           ^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\strawberry\utils\await_maybe.py", line 13, in await_maybe
+    return await value
+           ^^^^^^^^^^^
+  File "C:\0_DATA\SAD_Secure_Password_Management\main.py", line 187, in register_user
+    existing_user = session.exec(
+                    ~~~~~~~~~~~~^
+        select(User).where((User.username == username) | (User.email == email))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).first()
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlmodel\orm\session.py", line 66, in exec
+    results = super().execute(
+        statement,
+    ...<4 lines>...
+        _add_event=_add_event,
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2251, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.created_at
+[SQL: SELECT user.id, user.username, user.email, user.hashed_password, user.created_at 
+FROM user 
+WHERE user.username = ? OR user.email = ?]
+[parameters: ('123456', '123456@gmail.com')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-04-02 12:24:01,702 - strawberry.execution - ERROR - (sqlite3.OperationalError) no such column: user.created_at
+[SQL: SELECT user.id, user.username, user.email, user.hashed_password, user.created_at 
+FROM user 
+WHERE user.username = ? OR user.email = ?]
+[parameters: ('123456', '123456@gmail.com')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+GraphQL request:3:11
+2 |         mutation RegisterUser($username: String!, $email: String!, $password: String!) {
+3 |           registerUser(username: $username, email: $email, password: $password) {
+  |           ^
+4 |             id
+Traceback (most recent call last):
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: user.created_at
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\graphql\execution\execute.py", line 530, in await_result
+    return_type, field_nodes, info, path, await result
+                                          ^^^^^^^^^^^^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\strawberry\schema\schema_converter.py", line 752, in _async_resolver
+    return await await_maybe(
+           ^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\strawberry\utils\await_maybe.py", line 13, in await_maybe
+    return await value
+           ^^^^^^^^^^^
+  File "C:\0_DATA\SAD_Secure_Password_Management\main.py", line 187, in register_user
+    existing_user = session.exec(
+                    ~~~~~~~~~~~~^
+        select(User).where((User.username == username) | (User.email == email))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).first()
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlmodel\orm\session.py", line 66, in exec
+    results = super().execute(
+        statement,
+    ...<4 lines>...
+        _add_event=_add_event,
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2251, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\0_DATA\SAD_Secure_Password_Management\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.created_at
+[SQL: SELECT user.id, user.username, user.email, user.hashed_password, user.created_at 
+FROM user 
+WHERE user.username = ? OR user.email = ?]
+[parameters: ('123456', '123456@gmail.com')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-04-02 12:24:52,294 - app - INFO - New user registered: qweasd
+2025-04-02 12:25:04,243 - auth - WARNING - Failed login attempt for user qweasd
+2025-04-02 12:25:25,731 - app - INFO - New user registered: and
+2025-04-02 12:25:34,952 - auth - INFO - Successful login for user and
+2025-04-02 12:25:35,438 - strawberry.execution - ERROR - Cannot query field 'user_id' on type 'UserDataType'. Did you mean 'userId'?
+
+GraphQL request:5:13
+4 |             id
+5 |             user_id
+  |             ^
+6 |             creation_date
+2025-04-02 12:25:35,439 - strawberry.execution - ERROR - Cannot query field 'creation_date' on type 'UserDataType'. Did you mean 'creationDate'?
+
+GraphQL request:6:13
+5 |             user_id
+6 |             creation_date
+  |             ^
+7 |             data_content
+2025-04-02 12:25:35,440 - strawberry.execution - ERROR - Cannot query field 'data_content' on type 'UserDataType'. Did you mean 'dataContent'?
+
+GraphQL request:7:13
+6 |             creation_date
+7 |             data_content
+  |             ^
+8 |           }
+2025-04-02 12:25:47,144 - strawberry.execution - ERROR - Cannot query field 'user_id' on type 'UserDataType'. Did you mean 'userId'?
+
+GraphQL request:5:13
+4 |             id
+5 |             user_id
+  |             ^
+6 |             creation_date
+2025-04-02 12:25:47,145 - strawberry.execution - ERROR - Cannot query field 'creation_date' on type 'UserDataType'. Did you mean 'creationDate'?
+
+GraphQL request:6:13
+5 |             user_id
+6 |             creation_date
+  |             ^
+7 |             data_content
+2025-04-02 12:25:47,146 - strawberry.execution - ERROR - Cannot query field 'data_content' on type 'UserDataType'. Did you mean 'dataContent'?
+
+GraphQL request:7:13
+6 |             creation_date
+7 |             data_content
+  |             ^
+8 |           }
+2025-04-02 12:30:23,789 - app - INFO - New user registered: harsh
+2025-04-02 12:30:35,273 - auth - INFO - Successful login for user harsh
+2025-04-02 12:30:35,669 - strawberry.execution - ERROR - Cannot query field 'user_id' on type 'UserDataType'. Did you mean 'userId'?
+
+GraphQL request:5:13
+4 |             id
+5 |             user_id
+  |             ^
+6 |             creation_date
+2025-04-02 12:30:35,670 - strawberry.execution - ERROR - Cannot query field 'creation_date' on type 'UserDataType'. Did you mean 'creationDate'?
+
+GraphQL request:6:13
+5 |             user_id
+6 |             creation_date
+  |             ^
+7 |             data_content
+2025-04-02 12:30:35,671 - strawberry.execution - ERROR - Cannot query field 'data_content' on type 'UserDataType'. Did you mean 'dataContent'?
+
+GraphQL request:7:13
+6 |             creation_date
+7 |             data_content
+  |             ^
+8 |           }
+2025-04-02 12:30:39,910 - strawberry.execution - ERROR - Cannot query field 'user_id' on type 'UserDataType'. Did you mean 'userId'?
+
+GraphQL request:5:13
+4 |             id
+5 |             user_id
+  |             ^
+6 |             creation_date
+2025-04-02 12:30:39,911 - strawberry.execution - ERROR - Cannot query field 'creation_date' on type 'UserDataType'. Did you mean 'creationDate'?
+
+GraphQL request:6:13
+5 |             user_id
+6 |             creation_date
+  |             ^
+7 |             data_content
+2025-04-02 12:30:39,912 - strawberry.execution - ERROR - Cannot query field 'data_content' on type 'UserDataType'. Did you mean 'dataContent'?
+
+GraphQL request:7:13
+6 |             creation_date
+7 |             data_content
+  |             ^
+8 |           }
+2025-04-02 12:42:23,692 - app - INFO - New user registered: 123456
+2025-04-02 12:42:34,021 - auth - INFO - Successful login for user 123456
+2025-04-02 12:42:38,603 - app - INFO - User 123456 added new data item
+2025-04-02 12:42:43,904 - app - INFO - User 123456 added new data item
+2025-04-02 12:58:32,782 - app - INFO - New user registered: Harsh
+2025-04-02 12:58:43,175 - auth - INFO - Successful login for user Harsh
+2025-04-02 12:58:46,977 - app - INFO - User Harsh added new data item
+2025-04-02 13:00:01,458 - asyncio - ERROR - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host

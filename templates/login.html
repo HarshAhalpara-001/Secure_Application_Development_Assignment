@@ -1,0 +1,110 @@
+{% extends "base.html" %} {% block content %}
+<div
+  class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10"
+>
+  <div class="p-8">
+    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+      Login
+    </div>
+    <form id="loginForm" class="mt-4">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username"
+          >Username</label
+        >
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="username"
+          type="text"
+          placeholder="Username"
+          required
+        />
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password"
+          >Password</label
+        >
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+          id="password"
+          type="password"
+          placeholder="******************"
+          required
+        />
+      </div>
+      <div class="flex items-center justify-between">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Sign In
+        </button>
+      </div>
+    </form>
+    <p class="mt-4 text-gray-600">
+      Don't have an account?
+      <a href="/" class="text-blue-500 hover:text-blue-700">Register here</a>
+    </p>
+    <div id="errorMessage" class="text-red-500 mt-4 hidden"></div>
+  </div>
+</div>
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const errorElement = document.getElementById("errorMessage");
+
+    // Clear previous errors
+    errorElement.classList.add("hidden");
+    errorElement.textContent = "";
+
+    // Basic validation
+    if (!username || !password) {
+      errorElement.textContent = "Please fill in all fields";
+      errorElement.classList.remove("hidden");
+      return;
+    }
+
+    try {
+      const escapedUsername = username
+        .replace(/\\/g, "\\\\")
+        .replace(/"/g, '\\"');
+      const escapedPassword = password
+        .replace(/\\/g, "\\\\")
+        .replace(/"/g, '\\"');
+
+      const mutation = `
+        mutation {
+          login(username: "${escapedUsername}", password: "${escapedPassword}") {
+            token
+            message
+          }
+        }
+      `;
+
+      const response = await fetch("/graphql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: mutation }),
+        credentials: "include",
+      });
+
+      const result = await response.json();
+
+      if (result.errors) {
+        errorElement.textContent = result.errors[0].message;
+        errorElement.classList.remove("hidden");
+      } else if (result.data.login.message === "Login successful") {
+        window.location.href = "/dashboard";
+      } else {
+        errorElement.textContent = result.data.login.message;
+        errorElement.classList.remove("hidden");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      errorElement.textContent = "An error occurred during login";
+      errorElement.classList.remove("hidden");
+    }
+  });
+</script>
+{% endblock %}
