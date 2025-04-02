@@ -65,7 +65,7 @@ class UserData(SQLModel, table=True):
 def create_db() -> None:
     """Create database tables if they don't exist"""
     # Drop all tables first to ensure clean migration
-    SQLModel.metadata.drop_all(engine)  # Uncomment if you want to reset DB
+    # SQLModel.metadata.drop_all(engine)  # Uncomment if you want to reset DB
     SQLModel.metadata.create_all(engine)
     
     # Set file permissions for SQLite
